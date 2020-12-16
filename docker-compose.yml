@@ -1,0 +1,77 @@
+version: "2.3"
+
+services:
+  php:
+    build:
+      context: .
+      target: symfony_php
+      args:
+        SYMFONY_VERSION: ${SYMFONY_VERSION:-}
+        STABILITY: ${STABILITY:-stable}
+    restart: unless-stopped
+    healthcheck:
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 30s
+    environment:
+      SYMFONY_VERSION:
+    networks:
+      - bdexapi
+    links:
+      - database
+    depends_on:
+      - database
+
+  database:
+    image: "mysql:5.7"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: mnh
+      MYSQL_USER: ichtus
+      MYSQL_PASSWORD: mnh
+    networks:
+      bdexapi:
+        ipv4_address: 172.119.1.3
+
+  caddy:
+    build:
+      context: .
+      target: symfony_caddy
+    environment:
+      SERVER_NAME: bdex-api.localhost
+      MERCURE_PUBLISHER_JWT: ${MERCURE_PUBLISHER_JWT:-!ChangeMe!}
+      MERCURE_SUBSCRIBER_JWT: ${MERCURE_SUBSCRIBER_JWT:-!ChangeMe!}
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - bdexapi
+    links:
+      - php
+      - database
+
+networks:
+  bdexapi:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.119.0.0/16
+          ip_range: 172.119.1.0/24
+          gateway: 172.119.0.254
+
+volumes:
+  caddy_data:
+  caddy_config:
+  ###> doctrine/doctrine-bundle ###
+  mysql_data:
+    driver: local
+  ###< doctrine/doctrine-bundle ###

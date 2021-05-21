@@ -5,7 +5,7 @@
 
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
 ARG PHP_VERSION=8.0
-ARG CADDY_VERSION=2
+ARG CADDY_VERSION=2.1.1
 
 # "php" stage
 FROM php:${PHP_VERSION}-fpm-alpine AS symfony_php
@@ -32,7 +32,7 @@ RUN set -eux; \
 	docker-php-ext-configure zip; \
 	docker-php-ext-install -j$(nproc) \
 	    intl \
-        mysqli \
+	    mysqli \
         pdo_mysql \
 	    zip \
 	; \
@@ -84,8 +84,13 @@ ARG SYMFONY_VERSION=""
 RUN composer create-project "symfony/skeleton ${SYMFONY_VERSION}" . --stability=$STABILITY --prefer-dist --no-dev --no-progress --no-interaction; \
 	composer clear-cache
 
+###> recipes ###
+###> doctrine/doctrine-bundle ###
 RUN docker-php-ext-install pdo_mysql
 RUN docker-php-ext-enable pdo_mysql
+
+###< doctrine/doctrine-bundle ###
+###< recipes ###
 
 COPY . .
 
@@ -94,8 +99,7 @@ RUN set -eux; \
 	composer install --prefer-dist --no-dev --no-progress --no-scripts --no-interaction; \
 	composer dump-autoload --classmap-authoritative --no-dev; \
 	composer symfony:dump-env prod; \
-    composer run-script --no-dev post-install-cmd; \
-	chmod +x bin/console; sync
+	composer run-script --no-dev post-install-cmd; sync
 VOLUME /srv/app/var
 
 COPY docker/php/docker-healthcheck.sh /usr/local/bin/docker-healthcheck
@@ -112,16 +116,12 @@ CMD ["php-fpm"]
 FROM caddy:${CADDY_VERSION}-builder-alpine AS symfony_caddy_builder
 
 RUN xcaddy build \
-    --with github.com/dunglas/mercure@main \
-    --with github.com/dunglas/mercure/caddy@main \
     --with github.com/dunglas/vulcain/caddy
 
 FROM caddy:${CADDY_VERSION} AS symfony_caddy
 
 WORKDIR /srv/app
 
-ENV MERCURE_DEMO="demo /srv/mercure-assets/"
-COPY --from=dunglas/mercure:v0.11 /srv/public /srv/mercure-assets/
 COPY --from=symfony_caddy_builder /usr/bin/caddy /usr/bin/caddy
 COPY --from=symfony_php /srv/app/public public/
 COPY docker/caddy/Caddyfile /etc/caddy/Caddyfile

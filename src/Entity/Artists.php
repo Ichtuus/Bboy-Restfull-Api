@@ -2,10 +2,25 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ArtistsRepository")
+ * @ApiResource(
+ *     collectionOperations = {
+ *          "get"={
+ *              "method"="GET",
+ *              "path"="/artists",
+ *          },
+ *     },
+ *     itemOperations={
+ *          "get"={
+ *              "method"="GET",
+ *              "path"="/artist/{id}"
+ *          },
+ *     }
+ * )
  */
 class Artists
 {

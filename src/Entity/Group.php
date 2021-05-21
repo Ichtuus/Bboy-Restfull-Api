@@ -2,10 +2,19 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\GroupRepository")
+ * @ApiResource(
+ *     collectionOperations = {
+ *          "get"={
+ *              "method"="GET",
+ *              "path"="/group_lists",
+ *          },
+ *     }
+ * )
  */
 class Group
 {

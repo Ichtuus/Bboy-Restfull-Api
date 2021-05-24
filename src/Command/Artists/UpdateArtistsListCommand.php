@@ -38,9 +38,18 @@ class UpdateArtistsListCommand extends Command
         $artists = $this->artistsRepository->findAll();
 
         if (!$artists) {
-            $content = $this->artistsUpdateProcedure->process();
-            $output->writeln(sprintf('%s New artists', $content));
+        $output->writeln('process start');
+        $apiContent = $this->artistsUpdateProcedure->process();
+
+        if ($apiContent) {
+            $artists = $this->artistsUpdateProcedure->update($apiContent);
+            $this->artistsUpdateProcedure->flush($artists);
+        }
+        $output->writeln('');
+        $output->writeln(sprintf('process end (%s artists)0', count($apiContent)));
+        return Command::SUCCESS;
 
         }
+        return Command::FAILURE;
     }
 }

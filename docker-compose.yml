@@ -22,6 +22,12 @@ services:
       # Run "composer require symfony/mercure-bundle" to install and configure the Mercure integration
       MERCURE_PUBLISH_URL: ${MERCURE_URL:-http://caddy/.well-known/mercure}
       SYMFONY_VERSION:
+    networks:
+      - bdexapi
+    links:
+      - database
+    depends_on:
+      - database
 
   caddy:
     build:
@@ -51,8 +57,14 @@ services:
       - target: 443
         published: 443
         protocol: udp
+    networks:
+      - bdexapi
+    links:
+      - php
+      - database
 
-###> doctrine/doctrine-bundle ###
+
+  ###> doctrine/doctrine-bundle ###
   database:
     image: postgres:${POSTGRES_VERSION:-13}-alpine
     environment:
@@ -62,9 +74,19 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-symfony}
     volumes:
       - db-data:/var/lib/postgresql/data:rw
+    networks:
+      bdexapi:
+        ipv4_address: 172.119.1.3
       # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./docker/db/data:/var/lib/postgresql/data:rw
 ###< doctrine/doctrine-bundle ###
+
+networks:
+  bdexapi:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.119.0.0/16
 
 volumes:
   php_socket:

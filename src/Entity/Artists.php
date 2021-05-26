@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -19,6 +22,7 @@ class Artists
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
+//    #[Column(type: "integer", GeneratedValue(strategy="IDENTITY"))]
     private $id;
 
     /**

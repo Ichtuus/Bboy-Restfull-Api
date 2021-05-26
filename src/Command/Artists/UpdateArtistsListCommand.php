@@ -33,6 +33,12 @@ class UpdateArtistsListCommand extends Command
             ->setDescription('Update list of artists');
     }
 
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int
+     * @throws \Exception
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $currentArtists = $this->artistsRepository->findAll();

@@ -16,30 +16,37 @@ class ArtistsUpdateProcedure
        $this->em = $em;
    }
 
-    public function process() {
+    public function process($currentArtists) {
         $apiContent = new ArtistsClientProvider('https://bboyrankingz.com/ranking/artists/2020/elo.json');
-        return $apiContent->getAllArtists()['artists'];
+        $apiItems = count($apiContent->getAllArtists()['artists']);
+        $artists = null;
+        if (empty($currentArtists)) {
+            $artists = $this->update($apiContent->getAllArtists()['artists']);
+        } elseif ($apiItems > count($currentArtists)) {
+            $newArtists = array_diff($apiContent->getAllArtists()['artists'], $currentArtists);
+            $artists = $this->update($newArtists);
+        } else {
+           throw new \Exception('They don\'t have any new artists');
+        }
+        $this->flush($artists);
+        return count($artists);
     }
 
     public function update($artists) {
        $artistsList = [];
         foreach ($artists as $artist) {
-            foreach ($artist as $item) {
-                if (count($item)) {
-                    $Artists = new Artists();
-                    if (isset($item['title'])) {
-                        $Artists->setArtistsName($item['title']);
-                    }
-                    if (isset($item['country'])) {
-                        $Artists->setCountry($item['country']);
-                    }
-                    if (isset($item['thumbnail'])) {
-                        $Artists->setThumb($item['thumbnail']);
-                    }
-                    $Artists->setDateAdd(new DateTime());
-                    $artistsList[] = $Artists;
-                }
+            $Artists = new Artists();
+            if (isset($artist['title'])) {
+                $Artists->setArtistsName($artist['title']);
             }
+            if (isset($artist['country'])) {
+                $Artists->setCountry($artist['country']);
+            }
+            if (isset($artist['thumbnail'])) {
+                $Artists->setThumb($artist['thumbnail']);
+            }
+            $Artists->setDateAdd(new DateTime());
+            $artistsList[] = $Artists;
         }
         return $artistsList;
     }

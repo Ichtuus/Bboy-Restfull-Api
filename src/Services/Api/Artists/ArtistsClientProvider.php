@@ -28,16 +28,18 @@ class ArtistsClientProvider extends AbstractHttpClient
 
         // Check if we have any content and if exist other pages
         if ($content && $content['count']) {
-            $nbOfArtistsInPage = ceil($content['count'] / 10);
+            $nbOfPages = ceil($content['count'] / 10);
             $artistsExtracted = [];
             $request = [];
 
             if (empty($artistsExtracted)) {
                 $pages = 0;
-                for ($i = 0; $i < $nbOfArtistsInPage; $i++) {
+                for ($i = 0; $i < $nbOfPages; $i++) {
                     $pages += 1;
-                    $request[$i] = $client->request('GET',  $this->url)->toArray();
-                    array_merge((array)array_push($artistsExtracted, $request[$i]['results']));
+                    $request[$i] = $client->request('GET',  $this->url .'/?page='.$pages)->toArray();
+                    foreach ($request[$i]['results'] as $item) {
+                        $artistsExtracted[] = $item;
+                    }
                 }
             }
             return [
@@ -45,7 +47,7 @@ class ArtistsClientProvider extends AbstractHttpClient
             ];
         } else {
             return new JsonResponse([
-                'error' => 'No datas found'
+                'error' => 'No data found'
             ]);
         }
     }

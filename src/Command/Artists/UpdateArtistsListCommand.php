@@ -35,21 +35,21 @@ class UpdateArtistsListCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $artists = $this->artistsRepository->findAll();
-
-        if (!$artists) {
+        $currentArtists = $this->artistsRepository->findAll();
         $output->writeln('process start');
-        $apiContent = $this->artistsUpdateProcedure->process();
 
-        if ($apiContent) {
-            $artists = $this->artistsUpdateProcedure->update($apiContent);
-            $this->artistsUpdateProcedure->flush($artists);
+        $apiContent = $this->artistsUpdateProcedure->process($currentArtists);
+
+        if (!is_numeric($apiContent)) {
+            $output->writeln('');
+            $output->writeln(sprintf('process end (%s artists)', $apiContent));
+            return Command::SUCCESS;
         }
+
         $output->writeln('');
-        $output->writeln(sprintf('process end (%s artists)0', count($apiContent)));
-        return Command::SUCCESS;
-
-        }
+        $output->writeln(sprintf($apiContent));
         return Command::FAILURE;
+
+
     }
 }

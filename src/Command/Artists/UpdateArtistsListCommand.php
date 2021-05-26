@@ -46,14 +46,9 @@ class UpdateArtistsListCommand extends Command
 
         $apiContent = $this->artistsUpdateProcedure->process($currentArtists);
 
-        if (!is_numeric($apiContent)) {
-            $output->writeln('');
-            $output->writeln(sprintf('process end (%s artists)', $apiContent));
-            return Command::SUCCESS;
-        }
-
         $output->writeln('');
-        $output->writeln(sprintf($apiContent));
-        return Command::FAILURE;
+        $output->writeln(sprintf('process end (%s artists)', $apiContent));
+        return Command::SUCCESS;
+
     }
 }

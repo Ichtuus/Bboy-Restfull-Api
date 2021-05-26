@@ -47,14 +47,8 @@ class UpdateGroupsListCommand extends Command
 
         $apiContent = $this->groupsUpdateProcedure->process($currentGroups);
 
-        if (!is_numeric($apiContent)) {
-            $output->writeln('');
-            $output->writeln(sprintf('process end (%s groups)', $apiContent));
-            return Command::SUCCESS;
-        }
-
         $output->writeln('');
-        $output->writeln(sprintf($apiContent));
-        return Command::FAILURE;
+        $output->writeln(sprintf('process end (%s groups)', $apiContent));
+        return Command::SUCCESS;
     }
 }

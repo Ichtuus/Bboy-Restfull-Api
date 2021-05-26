@@ -55,7 +55,5 @@ class UpdateArtistsListCommand extends Command
         $output->writeln('');
         $output->writeln(sprintf($apiContent));
         return Command::FAILURE;
-
-
     }
 }

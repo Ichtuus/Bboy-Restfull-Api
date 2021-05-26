@@ -6,7 +6,6 @@ use App\Services\Api\Client\AbstractHttpClient;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-
 class ArtistsClientProvider extends AbstractHttpClient
 {
     private string $url;

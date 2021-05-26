@@ -8,18 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ArtistsRepository")
  * @ApiResource(
- *     collectionOperations = {
- *          "get"={
- *              "method"="GET",
- *              "path"="/artists",
- *          },
- *     },
- *     itemOperations={
- *          "get"={
- *              "method"="GET",
- *              "path"="/artist/{id}"
- *          },
- *     }
+ *     collectionOperations = {"get"},
+ *     itemOperations={"get"}
  * )
  */
 class Artists

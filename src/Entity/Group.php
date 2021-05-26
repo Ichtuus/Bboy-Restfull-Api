@@ -8,12 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\GroupRepository")
  * @ApiResource(
- *     collectionOperations = {
- *          "get"={
- *              "method"="GET",
- *              "path"="/group_lists",
- *          },
- *     }
+ *     collectionOperations = {"get"},
+ *     itemOperations={"get"}
  * )
  */
 class Group

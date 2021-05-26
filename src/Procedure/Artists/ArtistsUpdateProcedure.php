@@ -16,7 +16,13 @@ class ArtistsUpdateProcedure
        $this->em = $em;
    }
 
-    public function process($currentArtists) {
+    /**
+     * @param $currentArtists
+     * @return int|null
+     * @throws \Exception
+     */
+    public function process($currentArtists) : int|null
+    {
         $apiContent = new ArtistsClientProvider('https://bboyrankingz.com/ranking/artists/2020/elo.json');
         $apiItems = count($apiContent->getAllArtists()['artists']);
         $artists = null;
@@ -32,7 +38,12 @@ class ArtistsUpdateProcedure
         return count($artists);
     }
 
-    public function update($artists) {
+    /**
+     * @param $artists
+     * @return array
+     */
+    public function update($artists): array
+    {
        $artistsList = [];
         foreach ($artists as $artist) {
             $Artists = new Artists();
@@ -51,7 +62,9 @@ class ArtistsUpdateProcedure
         return $artistsList;
     }
 
-    public function flush($artists) {
+
+    public function flush($artists)
+    {
         foreach ($artists as $artist) {
             $this->em->persist($artist);
             $this->em->flush();

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Services\Api\Artists;
+namespace App\Services\Api\Groups;
 
 use App\Services\Api\Client\AbstractHttpClient;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class ArtistsClientProvider extends AbstractHttpClient
+class GroupsClientProvider extends AbstractHttpClient
 {
     private string $url;
 
@@ -17,36 +17,36 @@ class ArtistsClientProvider extends AbstractHttpClient
 
     public function call()
     {
-        return $this->getAllArtists();
+        return $this->getAllGroups();
     }
 
-    public function getAllArtists()
+    public function getAllGroups()
     {
         $client = HttpClient::create();
         $content = $client->request('GET', $this->url)->toArray();
 
-        // Check if we have any content and if exist other pages
         if ($content && $content['count']) {
             $nbOfPages = ceil($content['count'] / 10);
-            $artistsExtracted = [];
+            $groupsExtracted = [];
             $request = [];
 
-            if (empty($artistsExtracted)) {
+            if (empty($groupsExtracted)) {
                 $pages = 0;
                 for ($i = 0; $i < $nbOfPages; $i++) {
                     $pages += 1;
                     $request[$i] = $client->request('GET',  $this->url .'/?page='.$pages)->toArray();
                     foreach ($request[$i]['results'] as $item) {
-                        $artistsExtracted[] = $item;
+                        $groupsExtracted[] = $item;
                     }
                 }
             }
+
             return [
-                'artists' => $artistsExtracted
+                'groups' => $groupsExtracted,
             ];
         } else {
             return new JsonResponse([
-                'error' => 'No data found'
+                'error' => 'No data found',
             ]);
         }
     }

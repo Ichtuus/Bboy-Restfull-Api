@@ -1,36 +1,37 @@
 <?php
 
-namespace App\Command\Artists;
+namespace App\Command\Groups;
 
-use App\Procedure\Artists\ArtistsUpdateProcedure;
-use App\Repository\ArtistsRepository;
+use App\Procedure\Groups\GroupsUpdateProcedure;
+use App\Repository\GroupsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class UpdateArtistsListCommand extends Command
+class UpdateGroupsListCommand extends Command
 {
-    private ArtistsRepository $artistsRepository;
-    private ArtistsUpdateProcedure $artistsUpdateProcedure;
+
+    private GroupsRepository $groupsRepository;
+    private GroupsUpdateProcedure $groupsUpdateProcedure;
     private EntityManagerInterface $em;
 
     public function __construct(
-        ArtistsRepository $artistsRepository,
-        ArtistsUpdateProcedure $artistsUpdateProcedure,
+        GroupsRepository $groupsRepository,
+        GroupsUpdateProcedure $groupsUpdateProcedure,
         EntityManagerInterface $em
     ) {
         parent::__construct();
-        $this->artistsRepository = $artistsRepository;
-        $this->artistsUpdateProcedure = $artistsUpdateProcedure;
+        $this->groupsRepository = $groupsRepository;
+        $this->groupsUpdateProcedure = $groupsUpdateProcedure;
         $this->em = $em;
     }
 
     protected function configure()
     {
         $this
-            ->setName('artists:process:update')
-            ->setDescription('Update list of artists');
+            ->setName('groups:process:update')
+            ->setDescription('Update list of groups');
     }
 
     /**
@@ -41,14 +42,14 @@ class UpdateArtistsListCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $currentArtists = $this->artistsRepository->findAll();
+        $currentGroups = $this->groupsRepository->findAll();
         $output->writeln('process start');
 
-        $apiContent = $this->artistsUpdateProcedure->process($currentArtists);
+        $apiContent = $this->groupsUpdateProcedure->process($currentGroups);
 
         if (!is_numeric($apiContent)) {
             $output->writeln('');
-            $output->writeln(sprintf('process end (%s artists)', $apiContent));
+            $output->writeln(sprintf('process end (%s groups)', $apiContent));
             return Command::SUCCESS;
         }
 

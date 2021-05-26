@@ -3,23 +3,16 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ArtistsRepository")
  * @ApiResource(
- *     collectionOperations = {
- *          "get"={
- *              "method"="GET",
- *              "path"="/artists",
- *          },
- *     },
- *     itemOperations={
- *          "get"={
- *              "method"="GET",
- *              "path"="/artist/{id}"
- *          },
- *     }
+ *     collectionOperations = {"get"},
+ *     itemOperations={"get"}
  * )
  */
 class Artists
@@ -29,6 +22,7 @@ class Artists
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
+//    #[Column(type: "integer", GeneratedValue(strategy="IDENTITY"))]
     private $id;
 
     /**

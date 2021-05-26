@@ -6,17 +6,13 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\GroupRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\GroupsRepository")
  * @ApiResource(
- *     collectionOperations = {
- *          "get"={
- *              "method"="GET",
- *              "path"="/group_lists",
- *          },
- *     }
+ *     collectionOperations = {"get"},
+ *     itemOperations={"get"}
  * )
  */
-class Group
+class Groups
 {
     /**
      * @ORM\Id()

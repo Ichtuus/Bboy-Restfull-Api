@@ -20,7 +20,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3ddfdd85-e456-4433-a0e0-e4c4c260e5dc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Command/Artists/UpdateArtistsListCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Command/Artists/UpdateArtistsListCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Procedure/Artists/ArtistsUpdateProcedure.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Procedure/Artists/ArtistsUpdateProcedure.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Services/Api/Artists/ArtistsClientProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services/Api/Artists/ArtistsClientProvider.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

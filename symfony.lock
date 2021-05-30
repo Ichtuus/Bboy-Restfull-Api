@@ -102,6 +102,9 @@
     "doctrine/sql-formatter": {
         "version": "1.1.1"
     },
+    "egulias/email-validator": {
+        "version": "3.1.1"
+    },
     "fig/link-util": {
         "version": "1.2.0"
     },
@@ -129,8 +132,17 @@
     "phpdocumentor/type-resolver": {
         "version": "1.4.0"
     },
+    "phpstan/extension-installer": {
+        "version": "1.1.0"
+    },
     "phpstan/phpdoc-parser": {
         "version": "0.4.9"
+    },
+    "phpstan/phpstan": {
+        "version": "0.12.88"
+    },
+    "phpstan/phpstan-symfony": {
+        "version": "0.12.33"
     },
     "psr/cache": {
         "version": "2.0.0"
@@ -146,6 +158,18 @@
     },
     "psr/log": {
         "version": "1.1.4"
+    },
+    "sensio/framework-extra-bundle": {
+        "version": "5.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "5.2",
+            "ref": "fb7e19da7f013d0d422fa9bce16f5c510e27609b"
+        },
+        "files": [
+            "config/packages/sensio_framework_extra.yaml"
+        ]
     },
     "slevomat/coding-standard": {
         "version": "6.4.1"
@@ -266,6 +290,18 @@
     "symfony/http-kernel": {
         "version": "v5.2.9"
     },
+    "symfony/mailer": {
+        "version": "4.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.3",
+            "ref": "15658c2a0176cda2e7dba66276a2030b52bd81b2"
+        },
+        "files": [
+            "config/packages/mailer.yaml"
+        ]
+    },
     "symfony/messenger": {
         "version": "4.3",
         "recipe": {
@@ -277,6 +313,9 @@
         "files": [
             "config/packages/messenger.yaml"
         ]
+    },
+    "symfony/mime": {
+        "version": "v5.2.9"
     },
     "symfony/monolog-bridge": {
         "version": "v5.2.7"
@@ -296,8 +335,23 @@
             "config/packages/test/monolog.yaml"
         ]
     },
+    "symfony/notifier": {
+        "version": "5.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "5.0",
+            "ref": "c31585e252b32fe0e1f30b1f256af553f4a06eb9"
+        },
+        "files": [
+            "config/packages/notifier.yaml"
+        ]
+    },
     "symfony/polyfill-intl-grapheme": {
         "version": "v1.22.1"
+    },
+    "symfony/polyfill-intl-idn": {
+        "version": "v1.23.0"
     },
     "symfony/polyfill-intl-normalizer": {
         "version": "v1.22.1"
@@ -372,6 +426,19 @@
     },
     "symfony/string": {
         "version": "v5.2.8"
+    },
+    "symfony/translation": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "2ad9d2545bce8ca1a863e50e92141f0b9d87ffcd"
+        },
+        "files": [
+            "config/packages/translation.yaml",
+            "translations/.gitignore"
+        ]
     },
     "symfony/translation-contracts": {
         "version": "v2.4.0"

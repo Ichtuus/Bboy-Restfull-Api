@@ -2,18 +2,19 @@
 
 namespace App\Procedure\Artists;
 
-use App\Entity\Artists;
+use App\Builder\Artists\ArtistsDirector;
 use App\Services\Api\Artists\ArtistsClientProvider;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ArtistsUpdateProcedure
 {
    private EntityManagerInterface $em;
+   private ArtistsDirector $artistsDirector;
 
-   public function __construct(EntityManagerInterface $em)
+   public function __construct(EntityManagerInterface $em, ArtistsDirector $artistsDirector)
    {
        $this->em = $em;
+       $this->artistsDirector = $artistsDirector;
    }
 
     /**
@@ -44,22 +45,7 @@ class ArtistsUpdateProcedure
      */
     public function update($artists): array
     {
-       $artistsList = [];
-        foreach ($artists as $artist) {
-            $Artists = new Artists();
-            if (isset($artist['title'])) {
-                $Artists->setArtistsName($artist['title']);
-            }
-            if (isset($artist['country'])) {
-                $Artists->setCountry($artist['country']);
-            }
-            if (isset($artist['thumbnail'])) {
-                $Artists->setThumb($artist['thumbnail']);
-            }
-            $Artists->setDateAdd(new DateTime());
-            $artistsList[] = $Artists;
-        }
-        return $artistsList;
+        return $this->artistsDirector->buildFromArray($artists);
     }
 
 

@@ -19,12 +19,12 @@ class ArtistsUpdateProcedure
 
     /**
      * @param $currentArtists
-     * @return int|null
+     * @return array
      * @throws \Exception
      */
-    public function process($currentArtists) : int|null
+    public function process($currentArtists) : array
     {
-        $apiContent = new ArtistsClientProvider('https://bboyrankingz.com/ranking/artists/2020/elo.json');
+        $apiContent = new ArtistsClientProvider('https://bboyrankingz.com/ranking/artists/'. date('Y') .'/elo.json');
         $apiItems = count($apiContent->getAllArtists()['artists']);
         $artists = null;
         if (empty($currentArtists)) {
@@ -36,7 +36,7 @@ class ArtistsUpdateProcedure
            throw new \Exception('They don\'t have any new artists');
         }
         $this->flush($artists);
-        return count($artists);
+        return $artists;
     }
 
     /**

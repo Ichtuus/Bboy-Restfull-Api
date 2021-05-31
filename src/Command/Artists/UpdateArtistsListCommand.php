@@ -47,7 +47,7 @@ class UpdateArtistsListCommand extends Command
         $apiContent = $this->artistsUpdateProcedure->process($currentArtists);
 
         $output->writeln('');
-        $output->writeln(sprintf('process end (%s artists)', $apiContent));
+        $output->writeln(sprintf('process end (%s artists)', count($apiContent)));
         return Command::SUCCESS;
 
     }

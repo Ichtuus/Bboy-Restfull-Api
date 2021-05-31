@@ -48,7 +48,7 @@ class UpdateGroupsListCommand extends Command
         $apiContent = $this->groupsUpdateProcedure->process($currentGroups);
 
         $output->writeln('');
-        $output->writeln(sprintf('process end (%s groups)', $apiContent));
+        $output->writeln(sprintf('process end (%s groups)', count($apiContent)));
         return Command::SUCCESS;
     }
 }

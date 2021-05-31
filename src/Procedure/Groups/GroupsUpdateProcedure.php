@@ -18,12 +18,12 @@ class GroupsUpdateProcedure
 
     /**
      * @param $currentGroups
-     * @return int|null
+     * @return array
      * @throws \Exception
      */
-    public function process($currentGroups) : int|null
+    public function process($currentGroups) : array
     {
-        $apiContent = new GroupsClientProvider( 'https://bboyrankingz.com/ranking/groups/2020/elo.json');
+        $apiContent = new GroupsClientProvider( 'https://bboyrankingz.com/ranking/groups/'. date('Y') .'/elo.json');
         $apiItems = count($apiContent->getAllGroups()['groups']);
         $groups = null;
         if (empty($currentGroups)) {
@@ -35,7 +35,7 @@ class GroupsUpdateProcedure
             throw new \Exception('They don\'t have any new groups');
         }
         $this->flush($groups);
-        return count($groups);
+        return $groups;
     }
 
     /**
